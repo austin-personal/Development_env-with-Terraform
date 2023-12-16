@@ -6,12 +6,12 @@ resource "aws_vpc" "mk_vpc" {
   enable_dns_support   = true #Dns resolution = Convert Domain name into IP address
 
   tags = {
-    Name = "MyVPC" # tags for easy identification
+    Name = "MyVPC" #It will show as name in AWS console
   }
 }
 resource "aws_subnet" "mk_public_subnet" {
   vpc_id                  = aws_vpc.mk_vpc.id
-  cidr_block              = "10.0.1.0/24" #Cidr block for subnet. Must be inside of VPC cidr block and dont overlap with vpc cidr block
+  cidr_block              = "10.0.1.0/24" #Must be inside of VPC cidr block and dont overlap with vpc cidr block
   map_public_ip_on_launch = true
   availability_zone       = "us-west-2a"
 
@@ -38,7 +38,7 @@ resource "aws_route" "mk_route" {
   gateway_id             = aws_internet_gateway.mk_ig.id
 }
 
-resource "aws_route_table_association" "a" {
+resource "aws_route_table_association" "mk_rt-assoc" {
   subnet_id      = aws_subnet.mk_public_subnet.id
   route_table_id = aws_route_table.mk_public_rt.id
 }
@@ -52,7 +52,7 @@ resource "aws_security_group" "mk_sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["49.224.254.159/32"]
+    cidr_blocks = ["My_IP"]
   }
 
   egress {
