@@ -1,4 +1,6 @@
-# Development-environment-with-Terraform
-RTD: Road To DevOps
+# RTD: Road To DevOps 1:
+# Develop34-environment-with-Terraform
 
-![MyFirstTerraform](https://github.com/austin-personal/Development_env-with-Terraform/assets/72653263/dd3870c1-0bf3-4576-88ee-0b8b22707a12)
+<img width="846" alt="Screenshot 2023-12-16 at 23 53 42" src="https://github.com/austin-personal/Development_env-with-Terraform/assets/72653263/2a2fba4c-1719-4c69-b4b8-353bd9346b8b">
+
+
