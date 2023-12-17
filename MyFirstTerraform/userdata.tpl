@@ -1,4 +1,6 @@
 #!/bin/bash
+#setting up the environment for Docker on an Ubuntu system.
+
 sudo apt-get update -y &&
 sudo apt-get install -y \
 apt-transport-https \

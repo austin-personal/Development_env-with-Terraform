@@ -12,7 +12,7 @@ resource "aws_vpc" "mk_vpc" {
 resource "aws_subnet" "mk_public_subnet" {
   vpc_id                  = aws_vpc.mk_vpc.id
   cidr_block              = "10.0.1.0/24" #Must be inside of VPC cidr block and dont overlap with vpc cidr block
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = true #Instances in the subnet will be asiigned with public IP
   availability_zone       = "us-west-2a"
 
   tags = {
@@ -25,19 +25,20 @@ resource "aws_internet_gateway" "mk_ig" {
     Name = "dev-ig"
   }
 }
-
+# A collections of rules
 resource "aws_route_table" "mk_public_rt" {
   vpc_id = aws_vpc.mk_vpc.id
   tags = {
     Name = "dev-rt"
   }
 }
+# A route = A rule of outbound traffic
 resource "aws_route" "mk_route" {
   route_table_id         = aws_route_table.mk_public_rt.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.mk_ig.id
 }
-
+# Assignment of a subnet to a RT. 
 resource "aws_route_table_association" "mk_rt-assoc" {
   subnet_id      = aws_subnet.mk_public_subnet.id
   route_table_id = aws_route_table.mk_public_rt.id
@@ -62,12 +63,14 @@ resource "aws_security_group" "mk_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
+#Key-pair is necessary to connect with instances,
 resource "aws_key_pair" "deployer" {
   key_name   = "mk_key"
   public_key = file("~/.ssh/mk_key.pub")
 
 }
+#Public Key: The public key is placed on the instances when they are launched. It is used to encrypt data and verify the digital signature of the private key.
+#Private Key: The private key is kept confidential and should only be stored on your local machine. It is used to decrypt data encrypted by the public key and to digitally sign data.
 
 resource "aws_instance" "mk_ec2" {
   ami                    = data.aws_ami.server_ami.id
