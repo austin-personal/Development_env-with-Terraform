@@ -1,4 +1,9 @@
 #!/bin/bash
+
+#shebang or hashbang = "#!/bin/bash". It is a special syntax at the beginning of a script file that tells the operating system which interpreter should be used to execute the script
+
+#In Terraform, the user_data argument in the aws_instance resource allows you to provide custom script or data that is run on the instance during its initialization. 
+#This is often used to configure instances with software, perform tasks during bootstrapping, or set up the environment.
 #setting up the environment for Docker on an Ubuntu system.
 
 sudo apt-get update -y &&
