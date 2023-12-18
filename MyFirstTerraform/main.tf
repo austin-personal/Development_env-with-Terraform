@@ -83,16 +83,15 @@ resource "aws_instance" "mk_ec2" {
   root_block_device {
     volume_size = 9
   }
-  tags = {
-    name = "dev-node"
-  }
-  provisioner "local-exec" {
-    command = templatefile("${var.host_os}-ssh-config.tpl",{
-      hostname = self.public_ip,
+  provisioner "local-exec" {#The local-exec provisioner invokes a local executable after a resource is created. This invokes a process on the machine running Terraform, not on the resource.
+    command = templatefile("${var.host_os}-ssh-config.tpl",{ #templatefile reads the file at the given path and renders its content as a template using a supplied set of template variables.
+      hostname = self.public_ip, #The self Object Expressions in provisioner blocks cannot refer to their parent resource by name. Instead, they can use the special self object. The self object represents the provisioner's parent resource, and has all of that resource's attributes. For example, use self.public_ip to reference an aws_instance's public_ip attribute.
       user = "ubuntu",
       identityfile = "~/.ssh/mk_key"
-
     })
     interpreter = var.host_os == "linux" ? ["bash", "-c"] : ["Powershell", "Command"]
+  }
+    tags = {
+    name = "dev-node"
   }
 }
